@@ -17,14 +17,13 @@ dates = pd.to_datetime(year.astype(str) + '-' + month.astype(str), format='%Y-%m
 # function tha fits ARIMA model and forecasts future demand with 80% and 90% confidence interval
 def arimaModel():
     # Fit the ARIMA model
-    arima = ARIMA(demand, order=(1, 1, 1))
+    arima = ARIMA(demand, order=(5, 1, 0))
     model = arima.fit()
 
     # Forecast future demand
     forecast_steps = 12
     forecast = model.forecast(steps=forecast_steps)
     conf_int = model.get_forecast(steps=forecast_steps).conf_int(alpha=0.2)
-    print(conf_int['upper Demand'], forecast)
 
     # Create a dataframe with the forecasted demand and confidence interval
     forecast_df = pd.DataFrame({'Forecasted Demand': forecast, 'Lower Confidence Interval': conf_int['lower Demand'], 'Upper Confidence Interval': conf_int['upper Demand']})
